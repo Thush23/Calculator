@@ -2,5 +2,9 @@
     <string name="app_name">GitTrial</string>
     <string name="hint_number">Please enter a Number</string>
     <string name="hint_number2">Please enter a Number</string>
+    <string name="hint_name">Please enter your Name</string>
+
     <string name="add">Add</string>
+    <string name="Save">Save</string>
+
 </resources>

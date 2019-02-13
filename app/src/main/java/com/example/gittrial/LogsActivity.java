@@ -1,10 +1,16 @@
 package com.example.gittrial;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LogsActivity extends AppCompatActivity {
@@ -15,14 +21,41 @@ public class LogsActivity extends AppCompatActivity {
 
         TextView tvLogs = findViewById(R.id.tvLogs);
 
-        ArrayList<String> logs =
-                getIntent().getStringArrayListExtra("LogsResult");
+        ArrayList<String> logs = getIntent().getStringArrayListExtra("LogsResult");
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < logs.size(); i++) {
-        stringBuilder.append(logs.get(i));
-        stringBuilder.append("\n");
+
+        for (int i = 0; i <logs.size(); i++){
+            stringBuilder.append(logs.get(i));
+            stringBuilder.append("\n");
         }
 
-        tvLogs.setText(stringBuilder.toString());
+        RecyclerView recyclerView =findViewById(R.id.rvresults);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        ResultsAdapter resultsAdapter = new ResultsAdapter(logs);
+        recyclerView.setAdapter(resultsAdapter);
+        //Bus bus = (Bus) getIntent().getSerializableExtra("Bus");
+       //tvLogs.setText(bus.getEyecolor());
+
+      // Room room = getIntent().getParcelableExtra("Room");
+       //tvLogs.setText(readDataFromFile());
+
+       // tvLogs.setText(room.getName());
+
+
+        }
+
+    // READ DATA FROM FILE //
+        private String readDataFromFile(){
+        File file = new File(getFilesDir(), "Logs.txt");
+        int size = (int) file.length();
+        byte[] contents = new byte[size];
+        try (FileInputStream fileInputStream = new FileInputStream(file)){
+            fileInputStream.read(contents);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new String(contents);
+
     }
 }
